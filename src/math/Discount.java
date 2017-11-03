@@ -6,14 +6,16 @@ import java.util.Collections;
 
 public class Discount 
 {
-	Stock sStock;
-	ArrayList<Stock> arrStocks;
+	public Stock sStock;
+	public ArrayList<Stock> arrStocks;
+	public ArrayList<Stock> shoppingCart;
 	
 	public Discount()
 	{		
 		System.out.println("Discount Constructor");
 
 		arrStocks=new ArrayList<Stock>();
+		shoppingCart=new ArrayList<Stock>();
 		
 		sStock=new Stock("SKM000003", "T-Shirt", 0, 30);
 		arrStocks.add(sStock);
@@ -28,6 +30,24 @@ public class Discount
 		printArr(arrStocks);
 	}
 	
+	public void addShopping(String stockSKU){
+		
+		Stock sStock = new Stock();
+		sStock = getItem(stockSKU);
+		if (sStock.strCode!="")
+		{
+			shoppingCart.add(sStock);
+		}
+		
+		
+	}
+	public void printCart()
+	{
+		System.out.println("Print Cart Start");
+		printArr(shoppingCart);
+		System.out.println("Total Cost: "+ printTotal(shoppingCart));
+		System.out.println("Print Cart End");
+	}	
 	public void Sort(ArrayList<Stock> arrStock)
 	{
 		int a=0;
@@ -62,9 +82,23 @@ public class Discount
 		for (a=0; a<pArr.size(); a++)
 		{
 			tmp=pArr.get(a);
-			System.out.println("Stock [" + a + "][" + tmp.strCode + "][" + tmp.iDiscount + "][" + tmp.dPrice +"]");
+			System.out.println("Stock [" + a + "][" + tmp.strDescription+ "][" + tmp.strCode + "][" + tmp.iDiscount + "][" + tmp.dPrice +"]");
 		}
 		return;
+	}
+	
+	public double printTotal(ArrayList<Stock> pArr)
+	{
+		double price=0;
+		Stock tmp;
+		
+		for (int a=0; a<pArr.size(); a++)
+		{
+			tmp=pArr.get(a);
+			price = price + tmp.dPrice;
+			
+		}
+		return price;
 	}
 
 	
@@ -137,6 +171,29 @@ public class Discount
 		return sRet;
 	}
 	
+	public Stock getItem(String pStr)
+	{
+		Stock sRet=new Stock();
+		
+		sRet=find(pStr);
+		printStock(sRet);
+		return sRet;
+	}
+	
+	public void printStock(Stock pStock)
+	{
+		System.out.println("Stock [" + pStock.strCode + "]");		
+		System.out.println("strDescription [" + pStock.strDescription + "]");		
+		System.out.println("iDiscount [" + pStock.iDiscount + "]");		
+		System.out.println("dPrice [" + pStock.dPrice + "]");		
+	}
+	
+	public void printStocks()
+	{
+		printArr(arrStocks);
+	}
+	
+
 	public int printOne()
 	{
 		return 1;
